@@ -1,6 +1,6 @@
 package com.example.kenyangproject.Model
 
-data class  FollowMain(
+data class FollowMain(
     var followerCount : Int = 0,
     var followers : MutableMap<String,Boolean> = HashMap(),
 

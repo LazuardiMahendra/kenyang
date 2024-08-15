@@ -1,4 +1,4 @@
-package com.example.kenyangproject.Navigatinon
+package com.example.kenyangproject.Navigation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,48 +11,48 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.kenyangproject.Model.ContentMain
 import com.example.kenyangproject.R
+import com.example.kenyangproject.databinding.CommentActivityBinding
+import com.example.kenyangproject.databinding.ItemCommentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_comment.*
-import kotlinx.android.synthetic.main.item_comment.view.*
+
 
 class CommentActivity : AppCompatActivity() {
     var contentUid: String? = null
 
+    private lateinit var binding: CommentActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comment)
+        binding = CommentActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         contentUid = intent.getStringExtra("contentUid")
 
-        rv_comment.adapter = CommentAdapter()
-        rv_comment.layoutManager = LinearLayoutManager(this)
+        binding.rvComment.adapter = CommentAdapter()
+        binding.rvComment.layoutManager = LinearLayoutManager(this)
 
-        bt_comment_send?.setOnClickListener {
+        binding.btCommentSend?.setOnClickListener {
             var comment = ContentMain.Comment()
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
-            comment.comment = et_comment_message.text.toString()
+            comment.comment = binding.etCommentMessage.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
             FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
                 .collection("comment").document().set(comment)
-            et_comment_message.setText("")
+            binding.etCommentMessage.setText("")
         }
     }
 
     inner class CommentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        var comments: ArrayList<ContentMain.Comment> = arrayListOf()
+        private var comments: ArrayList<ContentMain.Comment> = arrayListOf()
 
         init {
-            FirebaseFirestore.getInstance()
-                .collection("images")
-                .document(contentUid!!)
-                .collection("comment")
-                .orderBy("timestamp")
+            FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
+                .collection("comment").orderBy("timestamp")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     comments.clear()
-                    if (querySnapshot == null)
-                        return@addSnapshotListener
+                    if (querySnapshot == null) return@addSnapshotListener
                     for (snapshot in querySnapshot.documents!!) {
                         comments.add(snapshot.toObject(ContentMain.Comment::class.java)!!)
                     }
@@ -60,31 +60,33 @@ class CommentActivity : AppCompatActivity() {
                 }
         }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(p0.context).inflate(R.layout.item_comment, p0, false)
-            return CustomViewHolder(view)
+        inner class CustomViewHolder(val binding: ItemCommentBinding) :
+            RecyclerView.ViewHolder(binding.root)
+
+        override fun onCreateViewHolder(parent: ViewGroup, p1: Int): RecyclerView.ViewHolder {
+            val binding =
+                ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return CustomViewHolder(binding)
         }
 
-        private inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun getItemCount(): Int {
             return comments.size
         }
 
         override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-            var view = p0.itemView
-            view.tv_comment_message.text = comments[p1].comment
-            view.tv_comment_profile_id.text = comments[p1].userId
+            val viewHolder = (p0 as CustomViewHolder)
+            viewHolder.binding.tvCommentMessage.text = comments[p1].comment
+            viewHolder.binding.tvCommentProfileId.text = comments[p1].userId
 
 
-            FirebaseFirestore.getInstance()
-                .collection("profileImage")
-                .document(comments[p1].uid!!)
-                .get()
-                .addOnCompleteListener{task ->
-                    if(task.isSuccessful){
+            FirebaseFirestore.getInstance().collection("profileImage").document(comments[p1].uid!!)
+                .get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         var url = task.result!!["image"]
-                        Glide.with(p0.itemView.context).load(url).apply(RequestOptions().circleCrop()).into(view.iv_comment_profile)
+                        Glide.with(p0.itemView.context).load(url)
+                            .apply(RequestOptions().circleCrop())
+                            .into(viewHolder.binding.ivCommentProfile)
                     }
 
                 }

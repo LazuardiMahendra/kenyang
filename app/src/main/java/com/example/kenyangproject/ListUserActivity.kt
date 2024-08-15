@@ -3,6 +3,7 @@ import UsersAdapter
 import android.os.Bundle
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kenyangproject.databinding.ListUserActivityBinding
 import com.google.firebase.database.*
 
 class ListUserActivity : AppCompatActivity() {
@@ -10,6 +11,8 @@ class ListUserActivity : AppCompatActivity() {
     lateinit var ref : DatabaseReference
     lateinit var list : MutableList<Users>
     lateinit var listView: ListView
+
+    private lateinit var binding: ListUserActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

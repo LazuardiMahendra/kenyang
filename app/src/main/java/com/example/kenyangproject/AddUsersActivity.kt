@@ -3,29 +3,31 @@ package com.example.kenyangproject
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kenyangproject.databinding.AddUserBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.add_user.*
 
-class AddUsers : AppCompatActivity() {
+class AddUsersActivity : AppCompatActivity() {
 
-    lateinit var ref : DatabaseReference
+    lateinit var ref: DatabaseReference
+    private lateinit var binding: AddUserBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_user)
+        binding = AddUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         ref = FirebaseDatabase.getInstance().getReference("USERS")
 
-        bt_save_user.setOnClickListener {
+        binding.btSaveUser.setOnClickListener {
             savedata()
         }
     }
 
     private fun savedata() {
-        val username = add_username.text.toString()
-        val email = add_email.text.toString()
-        val telp = add_telp.text.toString()
+        val username = binding.addUsername.text.toString()
+        val email = binding.addEmail.text.toString()
+        val telp = binding.addTelp.text.toString()
 
         val userId = ref.push().key.toString()
         val user =
@@ -34,9 +36,9 @@ class AddUsers : AppCompatActivity() {
 
         ref.child(userId).setValue(user).addOnCompleteListener {
             Toast.makeText(this, "Successs", Toast.LENGTH_SHORT).show()
-            add_username.setText("")
-            add_telp.setText("")
-            add_email.setText("")
+            binding.addUsername.setText("")
+            binding.addTelp.setText("")
+            binding.addEmail.setText("")
         }
     }
 }
