@@ -4,316 +4,316 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddResep">
+    tools:context=".AddResepActivity">
 
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_addFotoResep"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edittextstyle" />
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/edittextstyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/ib_addFotoResep"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp"
-            android:background="@drawable/ic_add_to_photos_black_24dp" />
+            android:background="@drawable/ic_add_to_photos_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_addFotoResep"
+            app:layout_constraintEnd_toEndOf="@+id/iv_addFotoResep"
+            app:layout_constraintStart_toStartOf="@+id/iv_addFotoResep"
+            app:layout_constraintTop_toTopOf="@+id/iv_addFotoResep" />
 
+        <LinearLayout
 
-        <EditText
-            android:id="@+id/et_addNamaResep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_addFotoResep"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Nama Masakan"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="23dp" />
-
-        <EditText
-            android:id="@+id/et_addDeskipsiResep"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addNamaResep"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Deskripsi"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="23dp" />
-
-
-        <ImageView
-            android:id="@+id/iv_limit1"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_below="@+id/et_addDeskipsiResep"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/edittextstyle2" />
-
-
-        //bahan
-
-        <TextView
-            android:id="@+id/tv_titleBahan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_limit1"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Bahan-bahan"
-            android:textColor="@color/colorbahan"
-            android:textSize="23dp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_addFotoResep">
 
-        <EditText
-            android:id="@+id/et_addBahan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_titleBahan"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Contoh : 1 kg daging sapi"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                app:layout_constraintTop_toBottomOf="parent">
 
-        <EditText
-            android:id="@+id/et_addBahan2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addBahan"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Contoh : 1 kg daging sapi"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addNamaResep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama Masakan" />
 
-        <EditText
-            android:id="@+id/et_addBahan3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addBahan2"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Contoh : 1 kg daging sapi"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/bt_addBahan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_addBahan3"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle3"
-            android:text="+ tambah"
-            android:textSize="10dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
 
-        <ImageView
-            android:id="@+id/iv_limit2"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_below="@+id/bt_addBahan"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/edittextstyle2" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addDeskipsiResep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Deskripsi" />
 
-        //alat
-
-        <TextView
-            android:id="@+id/tv_titleAlat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_limit2"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Alat-alat"
-            android:textColor="@color/colorbahan"
-            android:textSize="23dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_addAlat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_titleAlat"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Contoh : Panci"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
-
-        <EditText
-            android:id="@+id/et_addAlat2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addAlat"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Bagaimana langkah membuatnya?"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
-
-        <EditText
-            android:id="@+id/et_addAlat3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addAlat2"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Bagaimana langkah membuatnya?"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
-
-        <Button
-            android:id="@+id/bt_addAlat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_addAlat3"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle3"
-            android:text="+ tambah"
-            android:textSize="10dp" />
-
-        <ImageView
-            android:id="@+id/iv_limit3"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_below="@+id/bt_addAlat"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/edittextstyle2" />
-
-        ///langkah
-
-        <TextView
-            android:id="@+id/tv_titleLangkah"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_limit3"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Langkah-langkah"
-            android:textColor="@color/colorbahan"
-            android:textSize="23dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_addLangkah"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_titleLangkah"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Bagaimana langkah membuatnya?"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
-
-        <EditText
-            android:id="@+id/et_addLangkah2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addLangkah"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Bagaimana langkah membuatnya?"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <EditText
-            android:id="@+id/et_addLangkah3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_addLangkah2"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle"
-            android:hint="Bagaimana langkah membuatnya?"
-            android:outlineAmbientShadowColor="@color/colorYellowTheme1"
-            android:textSize="15dp" />
+            <ImageView
+                android:id="@+id/iv_limit1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittextstyle2" />
 
-        <Button
-            android:id="@+id/bt_addLangkah"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_addLangkah3"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittextstyle3"
-            android:text="+ tambah"
-            android:textSize="10dp" />
+            <TextView
+                android:id="@+id/tv_titleBahan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18sp"
+                android:layout_marginTop="20dp"
+                android:text="Bahan-Bahan"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addBahan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : 1 kg daging sapi"
+                    android:inputType="textMultiLine"
+                    android:lineHeight="20sp"
+                    android:maxLines="20"
+                    android:minHeight="20sp"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addBahan2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : 1 kg daging sapi" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addBahan3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : 1 kg daging sapi" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <Button
-            android:id="@+id/bt_save_resep"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/bt_addLangkah"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="100dp"
-            android:background="@color/colorWhite"
-            android:contentDescription="App Description"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_addBahan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_addBahan3"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/edittextstyle3"
+                android:text="+ tambah"
+                android:textSize="10dp"
+                android:visibility="gone" />
 
-            android:letterSpacing="0.2"
-            android:onClick="panggilsimpanresep"
-            android:text="Simpan"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
-            tools:ignore="OnClick" />
+            <ImageView
+                android:id="@+id/iv_limit2"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/bt_addBahan"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/edittextstyle2"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/bt_cancel_resep"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/bt_save_resep"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="100dp"
-            android:layout_marginBottom="50dp"
-            android:background="@color/colorWhite"
-            android:contentDescription="App Description"
-            android:letterSpacing="0.2"
-            android:onClick="panggilbatalresep"
-            android:text="Batal"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
-            tools:ignore="OnClick" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_titleAlat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18sp"
+                android:layout_marginTop="10dp"
+                android:text="Alat-Alat"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addAlat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : Panci"
+                    android:inputType="textMultiLine"
+                    android:lineHeight="20sp"
+                    android:maxLines="20"
+                    android:minHeight="20sp"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addAlat2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : Panci" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addAlat3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : Panci"
+                    android:visibility="gone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_addAlat"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_addAlat3"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/edittextstyle3"
+                android:text="+ tambah"
+                android:textSize="10dp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_limit3"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/edittextstyle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_titleLangkah"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18sp"
+                android:layout_marginTop="10dp"
+                android:text="Langkah-Langkah"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addlangkah"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contoh : Langkah"
+                    android:inputType="textMultiLine"
+                    android:lineHeight="20sp"
+                    android:maxLines="20"
+                    android:minHeight="20sp"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/bt_addLangkah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/edittextstyle3"
+                android:text="+ tambah"
+                android:textSize="10dp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_save_resep"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="panggilsimpanresep"
+                    android:text="Simpan" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_cancel_resep"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="panggilbatalresep"
+                    android:text="Batal" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

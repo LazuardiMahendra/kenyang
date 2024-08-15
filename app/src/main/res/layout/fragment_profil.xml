@@ -28,7 +28,7 @@
             android:gravity="center_horizontal"
             android:linksClickable="true"
             android:textColorLink="@color/colorYellowTheme1"
-            android:text="Edit Photo"/>
+            android:text="Edit Photo" />
 
 
         <TextView
@@ -138,4 +138,4 @@
 
 </RelativeLayout>
 
-<!--    tools:listitem="@layout/view_list_detail_resep"-->
+    <!--    tools:listitem="@layout/view_list_detail_resep"-->

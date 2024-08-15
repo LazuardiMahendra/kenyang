@@ -7,9 +7,9 @@
     tools:context=".LoginActivity">
 
     <ImageView
+        android:id="@+id/iv_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/signin_layout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="-3dp"
         android:layout_marginBottom="3dp"
@@ -19,7 +19,7 @@
         android:id="@+id/signin_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/iv_logo"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -28,21 +28,22 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/email" />
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            app:endIconMode="password_toggle">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,50 +51,51 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <TextView
+            android:id="@+id/tv_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:linksClickable="true"
+            android:text="Dont have account? Sign Up Now"
+            android:textColorLink="@color/colorYellowTheme1" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_sign_in"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="25dp"
             android:background="@drawable/button_shape1"
             android:text="@string/signin_email"
             android:textColor="@color/colorWhite"
+            android:textSize="18sp"
             android:theme="@style/ButtonStyle" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:id="@+id/tv_sign_up"
-            android:text="Dont have account? Sign Up Now"
-            android:linksClickable="true"
-            android:textColorLink="@color/colorYellowTheme1"
-            android:gravity="center_horizontal"/>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/facebook_login_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/btn_signin_facebook"
-            android:text="@string/signin_facebook"
-            android:textColor="@color/colorWhite" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_shape1"
+            android:text="Login via Facebook"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:theme="@style/ButtonStyle" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_sign_in_google"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
-            android:background="@drawable/btn_signin_google"
-            android:text="@string/signin_google"
-            android:textColor="@color/colorWhite" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_shape1"
+            android:text="Login via Google"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:theme="@style/ButtonStyle" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.kenyangproject.Navigatinon
+package com.example.kenyangproject.Navigation
 
 import android.os.Bundle
 import android.view.LayoutInflater

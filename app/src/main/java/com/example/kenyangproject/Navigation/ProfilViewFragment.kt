@@ -1,4 +1,4 @@
-package com.example.kenyangproject.Navigatinon
+package com.example.kenyangproject.Navigation
 
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -19,34 +19,31 @@ import com.example.kenyangproject.MainActivity
 import com.example.kenyangproject.Model.ContentMain
 import com.example.kenyangproject.Model.FollowMain
 import com.example.kenyangproject.R
+import com.example.kenyangproject.databinding.FragmentProfilBinding
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import  kotlinx.android.synthetic.main.fragment_profil.view.*
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import kotlinx.android.synthetic.main.item_comment.view.*
-import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.android.synthetic.main.view_list_detail.view.*
-import kotlinx.android.synthetic.main.view_list_detail_resep.view.*
-import kotlinx.android.synthetic.main.view_list_user.view.*
 
 
 class ProfilViewFragment : Fragment() {
 
-    var fragmentView: View? = null
-    var firestore: FirebaseFirestore? = null
-    var uid: String? = null
-    var auth: FirebaseAuth? = null
-    var currentUserId: String? = null
+    private var firestore: FirebaseFirestore? = null
+    private var uid: String? = null
+    private var auth: FirebaseAuth? = null
+    private var currentUserId: String? = null
+
+    private var _binding: FragmentProfilBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         var PICKER_PROFILE_FROM_ALBUM = 10
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?
-        , savedInstanceState: Bundle?): View? {
-        fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_profil, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentProfilBinding.inflate(inflater, container, false)
         uid = arguments?.getString("destinationUid")
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -54,105 +51,114 @@ class ProfilViewFragment : Fragment() {
         currentUserId = auth?.currentUser?.uid
         if (uid == currentUserId) {
             //My Page
-            fragmentView?.bt_acc_follow_signout?.text = getString(R.string.signout)
-            fragmentView?.bt_acc_follow_signout?.setOnClickListener {
+            binding.btAccFollowSignout.text = getString(R.string.signout)
+            binding.btAccFollowSignout.setOnClickListener {
                 activity?.finish()
                 startActivity(Intent(activity, LoginActivity::class.java))
                 auth?.signOut()
             }
         } else {
             //other user page
-            fragmentView?.bt_acc_follow_signout?.text = getString(R.string.follow)
-            var mainactivity = (activity as MainActivity)
-            mainactivity?.tb_main_username?.text = arguments?.getString("userId")
-            mainactivity?.tb_bt_back?.setOnClickListener {
-                mainactivity.bn_main.selectedItemId = R.id.home_menu
-            }
-            mainactivity?.tb_bt_back?.visibility = View.VISIBLE
-            mainactivity?.tb_main_username?.visibility = View.VISIBLE
-            fragmentView?.bt_acc_follow_signout?.setOnClickListener {
+            binding.btAccFollowSignout.text = getString(R.string.follow)
+            binding.btAccFollowSignout.setOnClickListener {
                 requestFollow()
             }
+//            var mainactivity = activity as? MainActivity
+//            mainactivity?.tb_main_username?.text = arguments?.getString("userId")
+//            mainactivity?.tb_bt_back?.setOnClickListener {
+//                mainactivity.bn_main.selectedItemId = R.id.home_menu
+//            }
+//            mainactivity?.tb_bt_back?.visibility = View.VISIBLE
+//            mainactivity?.tb_main_username?.visibility = View.VISIBLE
+
         }
 
-        fragmentView?.rv_account?.adapter = UserViewAdapter()
-        fragmentView?.rv_account?.layoutManager = GridLayoutManager(activity!!, 3)
+        binding.rvAccount.adapter = UserViewAdapter()
+        binding.rvAccount.layoutManager = GridLayoutManager(requireActivity(), 3)
 
         //pick photo profile from gallery
-        fragmentView?.tv_edit_photo?.setOnClickListener {
-            var photoPickerIntent = Intent(Intent.ACTION_PICK)
+        binding.tvEditPhoto.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             activity?.startActivityForResult(photoPickerIntent, PICKER_PROFILE_FROM_ALBUM)
         }
 
+        getUsername()
         getProfileImage()
         getFollowersAndFollowing()
-        return fragmentView
+        return binding.root
     }
 
     //get image from firestore to photo profile
 
-    fun getProfileImage() {
+    private fun getUsername() {
+        val user = Firebase.auth.currentUser
+        user?.let {
+            binding.tvProfileUsername.text = it.email
+        }
+    }
+
+    private fun getProfileImage() {
         firestore?.collection("profileImage")?.document(uid!!)
             ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                 if (documentSnapshot == null) return@addSnapshotListener
                 if (documentSnapshot.data != null) {
-                    var url = documentSnapshot?.data!!["image"] //image not images
-                    Glide.with(activity!!).load(url).apply(RequestOptions().circleCrop())
-                        .into(fragmentView?.iv_account_profile!!)
+                    val url = documentSnapshot?.data!!["image"] //image not images
+                    Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
+                        .into(binding.ivAccountProfile)
                 }
             }
     }
 
-    fun getFollowersAndFollowing() {
+    private fun getFollowersAndFollowing() {
         firestore?.collection("users")?.document(uid!!)
             ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                 if (documentSnapshot == null) return@addSnapshotListener
-                var followMain = documentSnapshot.toObject(FollowMain::class.java)
+                val followMain = documentSnapshot.toObject(FollowMain::class.java)
                 if (followMain?.followingCount != null) {
-                    fragmentView?.tv_following_count?.text = followMain?.followingCount?.toString()
+                    binding.tvFollowingCount.text = followMain.followingCount.toString()
                 }
                 if (followMain?.followerCount != null) {
-                    fragmentView?.tv_follower_count?.text = followMain?.followerCount?.toString()
-                    if (followMain?.followers?.containsKey(currentUserId!!)) {
-                        fragmentView?.bt_acc_follow_signout?.text =
-                            getString(R.string.follow_cancel)
-                        fragmentView?.bt_acc_follow_signout?.background?.setColorFilter(
-                            ContextCompat.getColor(activity!!, R.color.colorLightGray),
+                    binding.tvFollowerCount.text = followMain.followerCount.toString()
+                    if (followMain?.followers?.containsKey(currentUserId!!) == true) {
+                        binding.btAccFollowSignout.text = getString(R.string.follow_cancel)
+                        binding.btAccFollowSignout.background?.setColorFilter(
+                            ContextCompat.getColor(requireActivity(), R.color.colorLightGray),
                             PorterDuff.Mode.MULTIPLY
                         )
                     } else {
                         if (uid != currentUserId) {
-                            fragmentView?.bt_acc_follow_signout?.text = getString(R.string.follow)
-                            fragmentView?.bt_acc_follow_signout?.background?.colorFilter = null
+                            binding.btAccFollowSignout.text = getString(R.string.follow)
+                            binding.btAccFollowSignout.background?.colorFilter = null
                         }
                     }
                 }
             }
     }
 
-    fun requestFollow() {
+    private fun requestFollow() {
         //save data to my account
-        var tsDocFollowing = firestore?.collection("users")?.document(currentUserId!!)
+        val tsDocFollowing = firestore?.collection("users")?.document(currentUserId!!)
         firestore?.runTransaction { transaction ->
-            var followMain = transaction.get(tsDocFollowing!!).toObject(FollowMain::class.java)
+            val followMain = transaction.get(tsDocFollowing!!).toObject(FollowMain::class.java)
             if (followMain == null) {
-                followMain == FollowMain()
-                followMain!!.followingCount = 1
-                followMain!!.followers[uid!!] = true
+                val newFollowMain = FollowMain().apply {
+                    followingCount = 1
+                    followers[uid!!] = true
+                }
 
-                transaction.set(tsDocFollowing, followMain)
+                transaction.set(tsDocFollowing, newFollowMain)
                 return@runTransaction
             }
 
-            if (followMain!!.following.containsKey(uid)) {
+            if (followMain.following.containsKey(uid)) {
                 // it remove following third person  when  a third person follow me
-                followMain?.followingCount = followMain?.followingCount - 1
+                followMain.followingCount = followMain?.followingCount?.minus(1)!!
                 followMain?.followers?.remove(uid!!)
             } else {
                 // it add following third person  when  a third person follow me
-                followMain?.followingCount = followMain?.followingCount + 1
-                followMain?.followers[uid!!] = true
+                followMain?.followingCount = followMain?.followingCount?.plus(1)!!
+                followMain?.followers?.set(uid!!, true)
             }
             transaction.set(tsDocFollowing, followMain)
             return@runTransaction
@@ -186,7 +192,7 @@ class ProfilViewFragment : Fragment() {
 
     inner class UserViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var contentMains: ArrayList<ContentMain> = arrayListOf()
-        var contentMainUidList : java.util.ArrayList<String> = arrayListOf()
+        var contentMainUidList: java.util.ArrayList<String> = arrayListOf()
 
         init {
             firestore?.collection("images")?.whereEqualTo("uid", uid)
@@ -198,7 +204,8 @@ class ProfilViewFragment : Fragment() {
                         contentMains.add(snapshot.toObject(ContentMain::class.java)!!)
                         contentMainUidList.add(snapshot.id)
                     }
-                    fragmentView?.tv_post_count?.text = contentMains.size.toString()
+                    binding.tvPostCount.text = contentMains.size.toString()
+                    binding.tvProfileUsername.text
                     notifyDataSetChanged()
                 }
         }
@@ -209,6 +216,7 @@ class ProfilViewFragment : Fragment() {
             imageview.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
             return CustomViewHolder(imageview)
         }
+
         inner class CustomViewHolder(var imageview: ImageView) :
             RecyclerView.ViewHolder(imageview) {
 
@@ -271,4 +279,5 @@ class ProfilViewFragment : Fragment() {
 //
 //
 //    }
+
 }

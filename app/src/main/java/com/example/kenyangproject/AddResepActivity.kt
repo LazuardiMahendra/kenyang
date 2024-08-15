@@ -7,30 +7,34 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kenyangproject.Model.ContentMain
+import com.example.kenyangproject.databinding.AddResepBinding
+import com.example.kenyangproject.databinding.AddUserBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import kotlinx.android.synthetic.main.add_resep.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddResep : AppCompatActivity()  {
+class AddResepActivity : AppCompatActivity() {
 
-    lateinit var ref : DatabaseReference
+    lateinit var ref: DatabaseReference
 
     val PICK_IMAGE_FROM_ALBUM = 0
-    var storage : FirebaseStorage? = null
-    var photoUri :Uri? = null
-    var auth : FirebaseAuth? = null
-    var firestore : FirebaseFirestore? = null
+    var storage: FirebaseStorage? = null
+    var photoUri: Uri? = null
+    var auth: FirebaseAuth? = null
+    var firestore: FirebaseFirestore? = null
+
+    private lateinit var binding: AddResepBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_resep)
+        binding = AddResepBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //initiate to storage,firestore,auth
         storage = FirebaseStorage.getInstance()
@@ -38,43 +42,43 @@ class AddResep : AppCompatActivity()  {
         firestore = FirebaseFirestore.getInstance()
 
 
-
         //add image upload event
-        bt_save_resep.setOnClickListener{
+        binding.btSaveResep.setOnClickListener {
             contentUpload()
         }
 
-        ib_addFotoResep.setOnClickListener{
+        binding.ibAddFotoResep.setOnClickListener {
             openAlbum()
         }
 
-        bt_addBahan.setOnClickListener {
+        binding.btAddBahan.setOnClickListener {
 
         }
 
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == PICK_IMAGE_FROM_ALBUM){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == PICK_IMAGE_FROM_ALBUM) {
+            if (resultCode == Activity.RESULT_OK) {
                 //this is patch to the selected image
                 photoUri = data?.data
-                iv_addFotoResep.setImageURI(photoUri)
-            }else{
+                binding.ivAddFotoResep.setImageURI(photoUri)
+            } else {
                 //exit the without choose teh photo
                 finish()
             }
         }
     }
 
-    fun openAlbum(){
+    fun openAlbum() {
         //open the album
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
-        startActivityForResult(photoPickerIntent,PICK_IMAGE_FROM_ALBUM)
+        startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
     }
 
-    fun contentUpload(){
+    fun contentUpload() {
 
         //make file name
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -82,7 +86,7 @@ class AddResep : AppCompatActivity()  {
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
         //Promise method
-        storageRef?.putFile(photoUri!!)?.continueWithTask{task : Task<UploadTask.TaskSnapshot> ->
+        storageRef?.putFile(photoUri!!)?.continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
 
@@ -95,16 +99,16 @@ class AddResep : AppCompatActivity()  {
             resep.uid = auth?.currentUser?.uid
 
             //insert nama resep
-            resep.resepNama = et_addNamaResep.text.toString()
+            resep.resepNama = binding.etAddNamaResep.text.toString()
 
             //insert langkah resep
-            resep.resepLangkah = et_addLangkah.text.toString()
+            resep.resepLangkah = binding.etAddlangkah.text.toString()
 
             //insert bahan resep
-            resep.resepBahan = et_addBahan.text.toString()
+            resep.resepBahan = binding.etAddBahan.text.toString()
 
             //insert alat resep
-            resep.resepAlat = et_addAlat.text.toString()
+            resep.resepAlat = binding.etAddAlat.text.toString()
 
             //insert timestamp
             resep.timestamp = System.currentTimeMillis()
@@ -120,7 +124,6 @@ class AddResep : AppCompatActivity()  {
             finish()
             Toast.makeText(this, "Succesfully Recipe Create", Toast.LENGTH_SHORT).show()
         }
-
 
 
     }

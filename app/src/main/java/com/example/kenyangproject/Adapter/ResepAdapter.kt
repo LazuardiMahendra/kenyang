@@ -45,7 +45,7 @@ class ResepAdapter(val mCtx: Context, val layoutResId: Int, val list: List<Users
 
     private fun Deleteinfo(user: Users) {
         val progressDialog = ProgressDialog(context,
-            R.style.Theme_MaterialComponents_Light_Dialog)
+            com.google.android.material.R.style.Theme_MaterialComponents_Light_Dialog)
         progressDialog.isIndeterminate = true
         progressDialog.setMessage("Deleting...")
         progressDialog.show()
